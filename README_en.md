@@ -221,10 +221,20 @@ skill for library | audit skill | library skill | api dictionary
 Every library Skill generated using OpenSci Skill is a reusable knowledge asset for the community. We invite you to:
 
 1. Use OpenSci Skill to generate Skills for scientific libraries you know well — NumPy, SciPy, Pandas, scikit-learn, MNE, nilearn, PyMC, scanpy, xarray, zarr, and many more
-2. Submit the generated `<library-name>/` directory via Pull Request
+2. Submit the generated `<library-name>/` directory to your own repo (feel free to register it in this repo's Issues)
 3. Propose additional libraries you'd like covered in Issues
 
 **The effort to contribute a Skill varies by library size and documentation quality. In Light mode, it typically takes only a few minutes.**
+
+### 🌟 Community Skill Repositories
+
+Public Skill repositories built with OpenSci Skill, available for reference or direct use:
+
+| Repository | Domain Coverage | Author |
+|------------|----------------|--------|
+| [HughYau/neuroforge-skills](https://github.com/HughYau/neuroforge-skills) | Neuroscience / neuroimaging (MNE, nilearn, etc.) | @HughYau |
+
+> Open an Issue or PR to add your Skill repository to this table.
 
 ### Contribution Rules
 
