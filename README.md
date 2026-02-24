@@ -24,7 +24,7 @@
 - 🗂️ 将知识按功能域组织成结构化的参考文件
 - 📄 输出一个标准化的 `SKILL.md` 导航入口
 
-产出的 Skill 可直接被支持 Skill 系统的 AI Agent（如 GitHub Copilot 等）加载使用，实现对特定领域库的**精准、实时、可复用**的调用能力。
+产出的 Skill 可被支持外部知识注入或 skill loader 的 Agent 框架加载（例如Claude Code，OpenCode等），实现对特定领域库的**精准、可更新、可复用**的调用能力。
 
 ---
 
@@ -84,6 +84,36 @@ OpenSci Skill 从设计上就以 Agent 为首要读者，**激进地剔除冗余
 │   ├── <domain-1>.md         # 按功能域拆分的深度参考
 │   └── ...
 └── scripts/                  # 可选：辅助脚本
+```
+
+### 📋 产物契约（Skill Contract）
+
+OpenSci Skill 的输出不是"一堆文件"，而是一个有明确规范的可依赖 artifact。
+
+**`SKILL.md` 必须包含的段落：**
+
+| 段落 | 要求 |
+|------|------|
+| YAML frontmatter | 仅 `name` + `description` 两个字段，`name` 须与目录名一致 |
+| `## Version` | 精确版本字符串，格式见下方"版本绑定" |
+| `## Installation` | 可运行的安装命令，标注可选 extras |
+| 各功能域 Quick Start | 每域至少一个可运行示例，有数据依赖须附合成数据回退块 |
+| `See references/<domain>.md` 指针 | 每个功能域末尾须有跳转指针，禁止在 SKILL.md 内嵌深度内容 |
+
+**`assets/symbol-index.jsonl` 每行 schema：**
+
+```jsonc
+{
+  "symbol": "fit_transform",          // 符号名（不含模块前缀）
+  "module": "sklearn.preprocessing",  // 完整模块路径
+  "kind": "method",                   // function | class | method | attribute
+  "signature": "fit_transform(X, y=None, **fit_params)", // 完整签名
+  "doc_url": "https://...",           // 官方文档链接，无则 null
+  "since_version": "0.18",            // 引入版本，未知则 null
+  "deprecated": null,                 // 废弃信息字符串，或 null
+  "confidence": "verified",           // verified | doc-derived | inferred
+  "source": "runtime"                 // runtime | ast | docs
+}
 ```
 
 ### 🎚️ 三种深度模式
@@ -171,17 +201,11 @@ skill for library | audit skill | library skill | api dictionary
 每一个基于 OpenSci Skill 生成的科学库 Skill，都是可以被社区复用的知识资产。我们邀请你：
 
 1. 使用 OpenSci Skill 为你熟悉的科学库（PyMC、scanpy、xarray、zarr 等）生成 Skill
-2. 将生成的 `<library-name>/` 目录提交到公共 Skill 仓库（Pull Request 欢迎）
+2. 将生成的 `<library-name>/` 目录提交到你的仓库（欢迎update你的skill在本仓库readme界面）
 3. 在 Issue 中提议你希望覆盖的下一个库
 
-**贡献一个 Skill 的工作量因库的规模和代码质量而异，通常在 Light 模式下只需几分钟。**
+**一个 Skill 的工作量因库的规模和代码质量而异，通常在 Light 模式下只需几分钟。**
 
-### 贡献规范
-
-- Skill 目录下**禁止出现** `README.md`、`CHANGELOG.md`、`CONTRIBUTING.md` 等文件
-- `assets/version.txt` 必须存在，且标注清楚构建版本
-- 所有代码示例须可运行，或附有明确的数据依赖说明
-- 提交前运行 `scripts/verify-snippets.py` 通过零错误
 
 ---
 

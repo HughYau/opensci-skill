@@ -24,7 +24,7 @@ Using OpenSci Skill, an Agent can automatically:
 - 🗂️ Organize knowledge into structured reference files by functional domain
 - 📄 Output a standardized `SKILL.md` navigator entrypoint
 
-The resulting Skill can be loaded directly by AI Agents that support the Skill format (e.g., GitHub Copilot), enabling **accurate, up-to-date, and reusable** library usage capabilities for that specific domain.
+The resulting Skill can be loaded by Agent frameworks that support external knowledge injection or a skill loader (e.g., Claude Code, OpenCode), enabling **accurate, version-tracked, and reusable** library usage capabilities for that specific domain.
 
 ---
 
@@ -85,6 +85,56 @@ Every library skill produced by OpenSci Skill follows a consistent structure:
 │   └── ...
 └── scripts/                  # Optional: helper scripts
 ```
+
+### 📋 Skill Contract
+
+OpenSci Skill doesn't just produce files — it publishes a well-specified, dependable artifact with a defined schema.
+
+**Required sections in `SKILL.md`:**
+
+| Section | Requirement |
+|---------|-------------|
+| YAML frontmatter | Only `name` + `description`; `name` must match the directory name |
+| `## Version` | Exact version string (see "Version Binding" below) |
+| `## Installation` | Runnable install command; note any required extras |
+| Per-domain Quick Start | At least one runnable snippet per domain; include synthetic-data fallback if data files are required |
+| `See references/<domain>.md` pointer | Every domain section must end with a reference pointer; deep content stays out of `SKILL.md` |
+
+**`assets/symbol-index.jsonl` per-line schema:**
+
+```jsonc
+{
+  "symbol": "fit_transform",          // symbol name (no module prefix)
+  "module": "sklearn.preprocessing",  // full module path
+  "kind": "method",                   // function | class | method | attribute
+  "signature": "fit_transform(X, y=None, **fit_params)", // full signature
+  "doc_url": "https://...",           // official docs URL, or null
+  "since_version": "0.18",            // version introduced, or null
+  "deprecated": null,                 // deprecation note string, or null
+  "confidence": "verified",           // verified | doc-derived | inferred
+  "source": "runtime"                 // runtime | ast | docs
+}
+```
+
+**Confidence annotation rules:**
+
+| Tag | Meaning | When to use |
+|-----|---------|-------------|
+| `verified` | Code snippet executed successfully in the target environment | Medium / Heavy mode, passed `verify-snippets.py` |
+| `doc-derived` | Sourced from official documentation; not executed | Light mode, or when execution environment is unavailable |
+| `inferred` | Static analysis / AST inference; no docs or execution backing | Source-only mode, package not installable |
+| `[UNVERIFIED: <source>]` | Inline annotation on a specific unconfirmed claim in prose | Any mode |
+
+**Version binding granularity:**
+
+```
+library==2.1.3
+python==3.11
+# optional (source builds only):
+git_commit=a3f9c12
+```
+
+All code examples must include a comment: `# tested against <pkg>==X.Y.Z`
 
 ### 🎚️ Three Depth Modes
 
