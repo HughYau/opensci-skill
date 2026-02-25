@@ -1,7 +1,7 @@
 # 🔬 OpenSci Skill
 
 <p align="center">
-  <strong>一个为 AI Agent 构建科学 Python 库知识库的元技能（Meta-Skill）</strong>
+  <strong>一个为 AI Agent 构建科学 Python 库技能的元技能（Meta-Skill）</strong>
 </p>
 
 <p align="center">
@@ -171,7 +171,7 @@ OpenSci Skill 的输出不是"一堆文件"，而是一个有明确规范的可�
 
 ### 为一个库生成 Skill
 
-将 `opensci-skill/` 目录（本仓库）挂载到你的 Agent 可访问的工作区，然后触发 Agent：
+将 `opensci-skill/` 目录（本仓库）挂载到你的 Agent 可访问的skill工作区，然后触发 Agent：
 
 ```
 为 <library-name> 创建一个 opensci skill
@@ -208,11 +208,11 @@ skill for library | audit skill | library skill | api dictionary
 
 ### 🌟 社区 Skill 仓库
 
-以下是已公开的、使用 OpenSci Skill 构建的 Skill 库，可直接作为参考或复用：
+以下是使用 OpenSci Skill 构建的 Skill 库，可直接作为参考或复用：
 
 | 仓库 | 覆盖领域 | 作者 |
 |------|----------|------|
-| [HughYau/neuroforge-skills](https://github.com/HughYau/neuroforge-skills) | 神经科学 / 脑成像（MNE、nilearn 等） | @HughYau |
+| [HughYau/neuroforge-skills](https://github.com/HughYau/neuroforge-skills) | 神经科学 / 脑成像（MNE、nilearn、Brain2\spikeinterface 等） | @HughYau |
 
 > 欢迎通过 Issue 或 PR 将你的 Skill 仓库添加到上表。
 
